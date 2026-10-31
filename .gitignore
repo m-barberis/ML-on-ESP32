@@ -1,0 +1,42 @@
+# macOS
+.DS_Store
+._*
+
+# Python environments and generated files
+.venv/
+.python-runtime/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# Local credentials and environment settings
+.env
+.env.*
+!.env.example
+
+# Datasets: retain the folder scaffold, not image downloads or derived data
+/data/**/*
+!/data/**/
+!/data/**/.gitkeep
+
+# Generated models and training logs
+/models/**/*
+!/models/**/
+!/models/**/.gitkeep
+!/models/int8/final/rps_cnn.tflite
+/logs/
+/runs/
+
+# ESP-IDF / PlatformIO build outputs and downloaded components
+/firmware/build/
+/firmware/managed_components/
+/firmware/.pio/
+/firmware/sdkconfig
+/firmware/sdkconfig.old
+
+# Keep reports, figures, firmware source, sdkconfig.defaults, and lockfiles tracked.

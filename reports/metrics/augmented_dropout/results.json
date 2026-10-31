@@ -1,0 +1,178 @@
+{
+  "config": {
+    "run": "augmented_dropout",
+    "maximum_epochs": 30,
+    "batch_size": 32,
+    "seed": 42,
+    "augmentation": "enhanced",
+    "dropout": 0.25
+  },
+  "tensorflow_version": "2.21.0",
+  "seed": 42,
+  "training": {
+    "maximum_epochs": 30,
+    "completed_epochs": 22,
+    "selected_epoch": 15,
+    "batch_size": 32,
+    "optimizer": "Adam",
+    "learning_rate": 0.001,
+    "early_stopping": {
+      "monitor": "val_accuracy",
+      "patience": 7
+    }
+  },
+  "classes": [
+    "paper",
+    "rock",
+    "scissors"
+  ],
+  "confusion_matrix_axes": "rows: true class; columns: predicted class",
+  "parameters": 29515,
+  "samples": {
+    "train": 2016,
+    "validation": 504,
+    "test": 372
+  },
+  "chance_accuracy": 0.3333333333333333,
+  "float": {
+    "validation": {
+      "accuracy": 0.996031746031746,
+      "confusion_matrix": [
+        [
+          168,
+          0,
+          0
+        ],
+        [
+          2,
+          166,
+          0
+        ],
+        [
+          0,
+          0,
+          168
+        ]
+      ],
+      "per_class_recall": {
+        "paper": 1.0,
+        "rock": 0.9880952380952381,
+        "scissors": 1.0
+      }
+    },
+    "test": {
+      "accuracy": 0.956989247311828,
+      "confusion_matrix": [
+        [
+          108,
+          16,
+          0
+        ],
+        [
+          0,
+          124,
+          0
+        ],
+        [
+          0,
+          0,
+          124
+        ]
+      ],
+      "per_class_recall": {
+        "paper": 0.8709677419354839,
+        "rock": 1.0,
+        "scissors": 1.0
+      }
+    },
+    "tflite_bytes": 122340
+  },
+  "int8": {
+    "validation": {
+      "accuracy": 0.9940476190476191,
+      "confusion_matrix": [
+        [
+          168,
+          0,
+          0
+        ],
+        [
+          2,
+          166,
+          0
+        ],
+        [
+          1,
+          0,
+          167
+        ]
+      ],
+      "per_class_recall": {
+        "paper": 1.0,
+        "rock": 0.9880952380952381,
+        "scissors": 0.9940476190476191
+      }
+    },
+    "test": {
+      "accuracy": 0.956989247311828,
+      "confusion_matrix": [
+        [
+          108,
+          16,
+          0
+        ],
+        [
+          0,
+          124,
+          0
+        ],
+        [
+          0,
+          0,
+          124
+        ]
+      ],
+      "per_class_recall": {
+        "paper": 0.8709677419354839,
+        "rock": 1.0,
+        "scissors": 1.0
+      }
+    },
+    "tflite_bytes": 36184
+  },
+  "deployment": {
+    "input_shape": [
+      1,
+      64,
+      64,
+      3
+    ],
+    "input_dtype": "int8",
+    "input_scale": 0.003921568859368563,
+    "input_zero_point": -128,
+    "output_dtype": "int8",
+    "output_scale": 0.00390625,
+    "output_zero_point": -128,
+    "operators": [
+      "CONV_2D",
+      "FULLY_CONNECTED",
+      "MAX_POOL_2D",
+      "RESHAPE",
+      "SOFTMAX"
+    ],
+    "has_float_tensors": false
+  },
+  "model_sha256": "281ea87f5bb8f3e51a4d79a32e8e3c11f86395a885ab0880f45bd2d82a6b415f",
+  "limitations": [
+    "Random stratified validation split can share synthetic hand styles with training.",
+    "Official test results now inform experiment design; this is a development benchmark.",
+    "Public dataset results do not establish accuracy on real camera images.",
+    "ESP32 tensor arena, camera RAM, operator compatibility, and latency require device testing."
+  ],
+  "test_accuracy_drop_percentage_points": 0.0,
+  "targets": {
+    "float_validation_at_least_90_percent": true,
+    "int8_test_drop_at_most_2_percentage_points": true,
+    "int8_file_below_100_kb": true
+  }
+}

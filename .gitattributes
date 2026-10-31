@@ -1,0 +1,2 @@
+# Normalize generated CSV reports across platforms.
+*.csv text eol=lf

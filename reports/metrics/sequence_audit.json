@@ -1,0 +1,90 @@
+{
+  "group_definition": "filename stem before its final hyphen",
+  "note": "Sequence prefix is not verified hand identity.",
+  "groups": {
+    "rock05ck01": {
+      "training": 101,
+      "validation": 19
+    },
+    "scissors04": {
+      "training": 96,
+      "validation": 24
+    },
+    "paper03": {
+      "training": 96,
+      "validation": 24
+    },
+    "scissors02": {
+      "training": 99,
+      "validation": 21
+    },
+    "rock07-k03": {
+      "training": 95,
+      "validation": 25
+    },
+    "paper02": {
+      "training": 101,
+      "validation": 19
+    },
+    "testscissors03": {
+      "training": 97,
+      "validation": 23
+    },
+    "paper05": {
+      "training": 97,
+      "validation": 23
+    },
+    "rock06ck02": {
+      "training": 94,
+      "validation": 26
+    },
+    "paper07": {
+      "training": 100,
+      "validation": 20
+    },
+    "testscissors01": {
+      "training": 92,
+      "validation": 28
+    },
+    "scissors03": {
+      "training": 101,
+      "validation": 19
+    },
+    "rock03": {
+      "training": 95,
+      "validation": 25
+    },
+    "rock02": {
+      "training": 92,
+      "validation": 28
+    },
+    "scissors01": {
+      "training": 95,
+      "validation": 25
+    },
+    "testscissors02": {
+      "training": 92,
+      "validation": 28
+    },
+    "paper04": {
+      "training": 100,
+      "validation": 20
+    },
+    "rock01": {
+      "training": 97,
+      "validation": 23
+    },
+    "paper01": {
+      "training": 86,
+      "validation": 34
+    },
+    "paper06": {
+      "training": 92,
+      "validation": 28
+    },
+    "rock04": {
+      "training": 98,
+      "validation": 22
+    }
+  }
+}

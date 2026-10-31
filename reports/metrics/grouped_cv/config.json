@@ -1,0 +1,17 @@
+{
+  "seed": 42,
+  "folds": 3,
+  "maximum_inner_epochs": 30,
+  "early_stopping": {
+    "monitor": "val_accuracy",
+    "patience": 7
+  },
+  "group_definition": "Filename prefix before final hyphen; not verified hand identity",
+  "inner_validation": "One complete sequence per class from outer training only",
+  "outer_refit": "Fresh model on all outer training data for inner-selected epochs",
+  "final_epochs": "Median of the three inner-selected epoch counts",
+  "batch_size": 32,
+  "augmentation": "enhanced",
+  "dropout": 0.25,
+  "selection_rule": "Fixed architecture; no choice based on official test or outer scores"
+}

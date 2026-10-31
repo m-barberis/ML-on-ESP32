@@ -1,0 +1,8 @@
+{
+  "run": "baseline",
+  "maximum_epochs": 30,
+  "batch_size": 32,
+  "seed": 42,
+  "augmentation": "basic",
+  "dropout": 0.0
+}

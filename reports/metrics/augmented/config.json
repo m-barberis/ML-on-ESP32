@@ -1,0 +1,8 @@
+{
+  "run": "augmented",
+  "maximum_epochs": 30,
+  "batch_size": 32,
+  "seed": 42,
+  "augmentation": "enhanced",
+  "dropout": 0.0
+}

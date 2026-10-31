@@ -1,0 +1,85 @@
+{
+  "fold": 3,
+  "selected_epochs": 7,
+  "samples": {
+    "inner_train": 1440,
+    "inner_validation": 360,
+    "outer_train": 1800,
+    "outer_test": 720
+  },
+  "float": {
+    "accuracy": 1.0,
+    "confusion_matrix": [
+      [
+        240,
+        0,
+        0
+      ],
+      [
+        0,
+        240,
+        0
+      ],
+      [
+        0,
+        0,
+        240
+      ]
+    ],
+    "per_class_recall": {
+      "paper": 1.0,
+      "rock": 1.0,
+      "scissors": 1.0
+    }
+  },
+  "int8": {
+    "accuracy": 1.0,
+    "confusion_matrix": [
+      [
+        240,
+        0,
+        0
+      ],
+      [
+        0,
+        240,
+        0
+      ],
+      [
+        0,
+        0,
+        240
+      ]
+    ],
+    "per_class_recall": {
+      "paper": 1.0,
+      "rock": 1.0,
+      "scissors": 1.0
+    }
+  },
+  "float_bytes": 122340,
+  "int8_bytes": 36184,
+  "deployment": {
+    "input_shape": [
+      1,
+      64,
+      64,
+      3
+    ],
+    "input_dtype": "int8",
+    "input_scale": 0.003921568859368563,
+    "input_zero_point": -128,
+    "output_dtype": "int8",
+    "output_scale": 0.00390625,
+    "output_zero_point": -128,
+    "operators": [
+      "CONV_2D",
+      "FULLY_CONNECTED",
+      "MAX_POOL_2D",
+      "RESHAPE",
+      "SOFTMAX"
+    ],
+    "has_float_tensors": false
+  },
+  "model_sha256": "bf6ebfba6a0c179230205d06131d7e283c15ab8b85d38df30a455328a4e55878"
+}
