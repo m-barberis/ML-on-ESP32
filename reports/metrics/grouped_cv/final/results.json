@@ -1,0 +1,100 @@
+{
+  "tensorflow_version": "2.21.0",
+  "classes": [
+    "paper",
+    "rock",
+    "scissors"
+  ],
+  "parameters": 29515,
+  "epochs": 8,
+  "epoch_selection": "Median inner-validation best epoch across three grouped folds",
+  "samples": {
+    "train": 2520,
+    "test": 372
+  },
+  "float": {
+    "test": {
+      "accuracy": 0.9408602150537635,
+      "confusion_matrix": [
+        [
+          107,
+          17,
+          0
+        ],
+        [
+          0,
+          124,
+          0
+        ],
+        [
+          1,
+          4,
+          119
+        ]
+      ],
+      "per_class_recall": {
+        "paper": 0.8629032258064516,
+        "rock": 1.0,
+        "scissors": 0.9596774193548387
+      }
+    },
+    "tflite_bytes": 122340
+  },
+  "int8": {
+    "test": {
+      "accuracy": 0.9381720430107527,
+      "confusion_matrix": [
+        [
+          107,
+          17,
+          0
+        ],
+        [
+          0,
+          124,
+          0
+        ],
+        [
+          1,
+          5,
+          118
+        ]
+      ],
+      "per_class_recall": {
+        "paper": 0.8629032258064516,
+        "rock": 1.0,
+        "scissors": 0.9516129032258065
+      }
+    },
+    "tflite_bytes": 36184
+  },
+  "deployment": {
+    "input_shape": [
+      1,
+      64,
+      64,
+      3
+    ],
+    "input_dtype": "int8",
+    "input_scale": 0.003921568859368563,
+    "input_zero_point": -128,
+    "output_dtype": "int8",
+    "output_scale": 0.00390625,
+    "output_zero_point": -128,
+    "operators": [
+      "CONV_2D",
+      "FULLY_CONNECTED",
+      "MAX_POOL_2D",
+      "RESHAPE",
+      "SOFTMAX"
+    ],
+    "has_float_tensors": false
+  },
+  "model_sha256": "f39d00cb3735cc131d763c3ee43c3e4c972154fd5e272fe1a36403669da07ec8",
+  "limitations": [
+    "Sequence prefixes are not verified hand identities; grouped CV does not prove identity separation.",
+    "Outer folds evaluate smaller training sets; their mean is not the final model's measured accuracy.",
+    "Official test is a development benchmark after earlier experiments, not an untouched final test.",
+    "Real-camera accuracy, ESP32 tensor arena, camera RAM and latency are unverified."
+  ]
+}
