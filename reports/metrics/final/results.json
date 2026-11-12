@@ -1,24 +1,25 @@
 {
-  "tensorflow_version": "2.21.0",
-  "classes": [
-    "paper",
-    "rock",
-    "scissors"
+  "epochs": 10,
+  "selected_epochs": [
+    8,
+    13,
+    12,
+    7,
+    10,
+    19,
+    8
   ],
-  "parameters": 29515,
-  "epochs": 8,
-  "epoch_selection": "Median inner-validation best epoch across three grouped folds",
   "samples": {
     "train": 2520,
-    "test": 372
+    "development_test": 372
   },
   "float": {
     "test": {
-      "accuracy": 0.9408602150537635,
+      "accuracy": 0.9731182795698925,
       "confusion_matrix": [
         [
-          107,
-          17,
+          121,
+          3,
           0
         ],
         [
@@ -27,26 +28,27 @@
           0
         ],
         [
-          1,
-          4,
-          119
+          7,
+          0,
+          117
         ]
       ],
       "per_class_recall": {
-        "paper": 0.8629032258064516,
+        "paper": 0.9758064516129032,
         "rock": 1.0,
-        "scissors": 0.9596774193548387
+        "scissors": 0.9435483870967742
       }
     },
-    "tflite_bytes": 122340
+    "bytes": 122340,
+    "test_loss": 0.06691499054431915
   },
   "int8": {
     "test": {
-      "accuracy": 0.9381720430107527,
+      "accuracy": 0.9731182795698925,
       "confusion_matrix": [
         [
-          107,
-          17,
+          122,
+          2,
           0
         ],
         [
@@ -55,18 +57,18 @@
           0
         ],
         [
-          1,
-          5,
-          118
+          8,
+          0,
+          116
         ]
       ],
       "per_class_recall": {
-        "paper": 0.8629032258064516,
+        "paper": 0.9838709677419355,
         "rock": 1.0,
-        "scissors": 0.9516129032258065
+        "scissors": 0.9354838709677419
       }
     },
-    "tflite_bytes": 36184
+    "bytes": 36184
   },
   "deployment": {
     "input_shape": [
@@ -90,11 +92,66 @@
     ],
     "has_float_tensors": false
   },
-  "model_sha256": "f39d00cb3735cc131d763c3ee43c3e4c972154fd5e272fe1a36403669da07ec8",
+  "model_sha256": "9326de6d69ec2d424980715403433e955977674733d86c6a4c66497d9f3b4ca7",
   "limitations": [
-    "Sequence prefixes are not verified hand identities; grouped CV does not prove identity separation.",
-    "Outer folds evaluate smaller training sets; their mean is not the final model's measured accuracy.",
-    "Official test is a development benchmark after earlier experiments, not an untouched final test.",
-    "Real-camera accuracy, ESP32 tensor arena, camera RAM and latency are unverified."
-  ]
+    "Fold scores inform epoch selection; not independent evaluation",
+    "Development benchmark only, evaluated after final training",
+    "Sequence prefixes are not verified hand identities",
+    "One seed per fold; fold variation also includes training randomness"
+  ],
+  "seed": 42,
+  "classes": [
+    "paper",
+    "rock",
+    "scissors"
+  ],
+  "parameters": 29515,
+  "tensorflow_version": "2.21.0",
+  "epoch_selection": "Median best validation-loss epoch across seven sequence-held-out folds",
+  "selection_reason": "Validation loss retains probability information beyond classification accuracy",
+  "source_run": "seven_fold_loss",
+  "source_results": "reports/metrics/seven_fold_loss/results.json",
+  "config": {
+    "run": "seven_fold_loss",
+    "seed": 42,
+    "folds": 7,
+    "tensorflow_version": "2.21.0",
+    "maximum_epochs": 30,
+    "early_stopping": {
+      "monitor": "val_loss",
+      "patience": 7,
+      "min_delta": 0,
+      "mode": "min",
+      "restore_best_weights": true,
+      "ties": "first optimum"
+    },
+    "validation": "One complete sequence per class per fold; each sequence held out once",
+    "fold_seeds": [
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48
+    ],
+    "group_definition": "Filename prefix before final hyphen; not verified hand identity",
+    "batch_size": 32,
+    "augmentation": "enhanced",
+    "dropout": 0.25,
+    "optimizer": "Adam",
+    "learning_rate": 0.001,
+    "final_epochs": "Median of seven best epochs selected using val_loss",
+    "score_interpretation": "Fold scores inform epoch selection; not independent evaluation",
+    "official_test_role": "Development benchmark only, evaluated after final training",
+    "epochs": 10,
+    "training_samples": 2520,
+    "final_fit_early_stopping": false
+  },
+  "artifact_paths": {
+    "keras": "models/float/final/rps_cnn.keras",
+    "float_tflite": "models/float/final/rps_cnn.tflite",
+    "int8_tflite": "models/int8/final/rps_cnn.tflite"
+  },
+  "historical_three_fold_refit": "reports/metrics/grouped_cv/final/results.json"
 }

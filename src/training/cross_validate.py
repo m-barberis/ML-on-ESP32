@@ -1,4 +1,4 @@
-"""Three-fold sequence-held-out evaluation, then refit one final deployment model."""
+"""Historical three-fold sequence-held-out evaluation and separate final refit."""
 
 import argparse
 import csv
@@ -94,9 +94,10 @@ def main():
     parser.add_argument("--seed", type=int, default=42)
     args = parser.parse_args()
     reports = ROOT / "reports/metrics/grouped_cv"
-    final_reports = ROOT / "reports/metrics/final"
-    if any(path.exists() for path in [reports, final_reports, ROOT / "models/float/final",
-                                      ROOT / "models/int8/final"]):
+    final_reports = reports / "final"
+    final_run = "grouped_cv/final"
+    if any(path.exists() for path in [reports, ROOT / "models/float" / final_run,
+                                      ROOT / "models/int8" / final_run]):
         parser.error("Grouped CV/final outputs already exist; preserve them before a new run")
     reports.mkdir(parents=True)
     final_reports.mkdir(parents=True)
@@ -177,7 +178,7 @@ def main():
                                              "training_samples": len(labels)})
     model, _ = fit(images, labels, np.arange(len(labels)), args.seed, final_epochs,
                    final_reports / "history.csv")
-    float_bytes, int8_bytes = save_models(model, images, "final", args.seed)
+    float_bytes, int8_bytes = save_models(model, images, final_run, args.seed)
     test_paths, test_labels = collect_images(ROOT / "data/raw/rps-test-set")
     test_images = load_images(test_paths)
     pred_float = model.predict(test_images, verbose=0).argmax(axis=1)

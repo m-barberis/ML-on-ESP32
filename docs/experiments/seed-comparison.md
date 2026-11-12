@@ -40,13 +40,15 @@ Ten epochs improved INT8 accuracy in six pairs and worsened it in four. The mean
 paired difference (10 minus 7) was **+0.32 percentage points**, with sample SD
 **2.80 points**. The mean advantage is small relative to variation between pairs;
 these results do not establish a reliable accuracy advantage. Ten epochs had a
-lower observed spread and a higher minimum accuracy in these ten runs, making it
-a reasonable recipe for the next deployment candidate.
+lower observed spread and a higher minimum accuracy in these ten runs. These are
+supporting observations; the selected duration follows from preferring validation
+loss for the seven-fold epoch-selection procedure, rather than this test comparison.
 
 These statistics describe training randomness on this fixed development set.
 They are not confidence intervals for real-camera accuracy. No individual seed
-was selected for its test score, and the original deployment candidate remains
-unchanged. The previously proposed unused seed 52 has not been trained here.
+was selected for its test score. The selected deployment model retains the original
+seed 42 and the loss-selected ten-epoch duration; see the [model card](../model-card.md).
+The previously proposed unused seed 52 was not used.
 
 ## Reproduction and verification
 

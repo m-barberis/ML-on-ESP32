@@ -1,9 +1,11 @@
-# Seven-fold epoch selection: accuracy versus loss
+# Seven-fold epoch selection
 
 ## Question and method
 
-Choose the final training duration using all seven sequences per class for
-validation in turn, then compare accuracy-based and loss-based early stopping.
+The main procedure chooses the final training duration using validation loss,
+holding out each of the seven sequences per class in turn. Loss retains
+information about predicted probabilities beyond classification accuracy.
+The accuracy-based stopping experiment is a secondary comparison.
 
 Each fold holds out one entire sequence per class: 2,160 training images and
 360 validation images. Every sequence is held out once. The architecture uses
@@ -55,13 +57,14 @@ verify hand identities.
 ## Commands and artifacts
 
 ```sh
-python src/training/seven_fold_epochs.py
 python src/training/seven_fold_epochs.py --monitor val_loss
+python src/training/seven_fold_epochs.py --monitor val_accuracy
 ```
 
 Existing run outputs are refused. Use a fresh `--run NAME` to repeat an experiment.
-Default report directories are `reports/metrics/seven_fold_epochs/` and
-`reports/metrics/seven_fold_loss/`. Each contains exactly three files:
+Validation loss is the default monitor. Default report directories are
+`reports/metrics/seven_fold_loss/` for loss and `reports/metrics/seven_fold_epochs/`
+for accuracy. Each contains exactly three files:
 
 - `results.json`: configuration, folds, selected epochs, and final results.
 - `history.csv`: combined training curves with stage, fold, and one-based epoch.
@@ -69,7 +72,9 @@ Default report directories are `reports/metrics/seven_fold_epochs/` and
 
 Models are in `models/{float,int8}/<run>/final/`. The earlier accuracy-run reports
 were consolidated while preserving metadata, histories, and predictions.
-Neither experiment replaces the original deployment candidate.
+The ten-epoch, seed-42 loss-based exports are the selected deployment weights.
+Exact copies are at `models/{float,int8}/final/`; the original eight-epoch candidate
+is archived with the historical three-fold experiment. See the [model card](../model-card.md).
 
 The follow-up [ten-seed comparison](seed-comparison.md) measures the stability
 of both fixed durations, rather than choosing between these two seed-42 scores.

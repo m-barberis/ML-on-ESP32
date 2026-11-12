@@ -34,7 +34,8 @@ are not verified hand identities.
 
 The final refit scored below the earlier random-split dropout model (95.70%).
 Its duration was chosen using inner validation rather than official test scores.
-It remains the original deployment candidate; later experiments are separate.
+It is now a historical experiment. The selected deployment weights come from
+the ten-epoch validation-loss procedure described in the [model card](../model-card.md).
 
 ## Command and artifacts
 
@@ -43,9 +44,12 @@ python src/training/cross_validate.py
 ```
 
 The command refuses existing outputs. Fold reports are in
-`reports/metrics/grouped_cv/`; final reports are in `reports/metrics/final/`.
-The final exports are in `models/float/final/` and `models/int8/final/`.
+`reports/metrics/grouped_cv/`; its archived final reports are in
+`reports/metrics/grouped_cv/final/`. Its final exports are in
+`models/float/grouped_cv/final/` and `models/int8/grouped_cv/final/`.
+The script writes to these experiment-specific paths, preserving the selected
+deployment model at the canonical `final` paths.
 
 See [fold results](../../reports/metrics/grouped_cv/results.json),
-[final results](../../reports/metrics/final/results.json), and
+[archived final results](../../reports/metrics/grouped_cv/final/results.json), and
 [the model card](../model-card.md) for the deployment contract and limitations.

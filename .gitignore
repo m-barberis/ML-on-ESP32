@@ -29,6 +29,7 @@ __pycache__/
 !/models/**/
 !/models/**/.gitkeep
 !/models/int8/final/rps_cnn.tflite
+!/models/int8/grouped_cv/final/rps_cnn.tflite
 /logs/
 /runs/
 

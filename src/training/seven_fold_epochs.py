@@ -1,4 +1,4 @@
-"""Select epochs with seven sequence-held-out folds, then refit separately."""
+"""Select epochs with seven sequence-held-out folds (validation loss by default)."""
 
 import argparse
 import csv
@@ -97,7 +97,7 @@ def append_predictions(path, paths, labels, float_predictions, stage, fold, int8
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--seed", type=int, default=42)
-    parser.add_argument("--monitor", choices=("val_accuracy", "val_loss"), default="val_accuracy")
+    parser.add_argument("--monitor", choices=("val_accuracy", "val_loss"), default="val_loss")
     parser.add_argument("--run", default=None)
     args = parser.parse_args()
     run = args.run or ("seven_fold_loss" if args.monitor == "val_loss" else "seven_fold_epochs")
