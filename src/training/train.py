@@ -29,18 +29,18 @@ def collect_images(directory):
         images = sorted((directory / name).glob("*.png"))
         if not images:
             raise ValueError(f"No PNG images found in {directory / name}")
-        paths.extend(images)
-        labels.extend([label] * len(images))
+        paths.extend(images) # list of image filenames
+        labels.extend([label] * len(images)) # NumPy array such as [0, 0, 1, 2, 1, ...]
     return paths, np.array(labels, dtype=np.int32)
 
 
 def load_images(paths):
     images = []
     for path in paths:
-        image = tf.io.decode_png(tf.io.read_file(str(path)), channels=3)
-        image = tf.image.resize(image, (IMAGE_SIZE, IMAGE_SIZE), method="bilinear")
-        images.append(image.numpy() / 255.0)
-    return np.asarray(images, dtype=np.float32)
+        image = tf.io.decode_png(tf.io.read_file(str(path)), channels=3) # tf decodes from raw bytes
+        image = tf.image.resize(image, (IMAGE_SIZE, IMAGE_SIZE), method="bilinear") # resized 64x64 tensor
+        images.append(image.numpy() / 255.0) # normalized NumPy float array
+    return np.asarray(images, dtype=np.float32) # shape: (number_of_images, 64, 64, 3)
 
 
 def split_training(labels, seed):
@@ -55,21 +55,22 @@ def split_training(labels, seed):
 
 
 def build_model(dropout=0.0, seed=42):
-    layers = [tf.keras.layers.Input((IMAGE_SIZE, IMAGE_SIZE, 3))]
+    layers = [tf.keras.layers.Input((IMAGE_SIZE, IMAGE_SIZE, 3))] # we start from the input, then we add the other layers 
+    # (size of an image, during training TF adds a batch dimension)
     for filters in (8, 16, 24):
         layers.extend([
             tf.keras.layers.Conv2D(filters, 3, padding="same", activation="relu"),
             tf.keras.layers.MaxPooling2D(),
         ])
-    layers.append(tf.keras.layers.Flatten())
+    layers.append(tf.keras.layers.Flatten()) # (8, 8, 24) tensor -> 1536 values
     if dropout:
         layers.append(tf.keras.layers.Dropout(dropout, seed=seed + 3))
     layers.extend([
         tf.keras.layers.Dense(16, activation="relu"),
-        tf.keras.layers.Dense(len(CLASSES), activation="softmax"),
+        tf.keras.layers.Dense(len(CLASSES), activation="softmax"), # produces a probability for each class 
     ])
     model = tf.keras.Sequential(layers, name="rps_tiny_cnn")
-    model.compile(
+    model.compile( # required by TF
         optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3),
         loss="sparse_categorical_crossentropy",
         metrics=["accuracy"],
@@ -82,17 +83,17 @@ def training_dataset(images, labels, batch_size, seed, enhanced=False):
         tf.keras.layers.RandomRotation(0.05, fill_mode="nearest", seed=seed),
         tf.keras.layers.RandomTranslation(0.1, 0.1, fill_mode="nearest", seed=seed + 1),
         tf.keras.layers.RandomFlip("horizontal", seed=seed + 2),
-    ]
+    ] # basic augmentation with small rotations, translations and horizontal flips
     if enhanced:
         layers.extend([
             tf.keras.layers.RandomZoom(0.1, 0.1, fill_mode="nearest", seed=seed + 4),
             tf.keras.layers.RandomBrightness(0.1, value_range=(0.0, 1.0), seed=seed + 5),
             tf.keras.layers.RandomContrast(0.15, value_range=(0.0, 1.0), seed=seed + 6),
-        ])
+        ]) # enhanced augmentation with zoom, brightness and contrast changes
     augmentation = tf.keras.Sequential(layers)
     dataset = tf.data.Dataset.from_tensor_slices((images, labels))
-    dataset = dataset.shuffle(len(images), seed=seed).batch(batch_size)
-    dataset = dataset.map(lambda x, y: (augmentation(x, training=True), y))
+    dataset = dataset.shuffle(len(images), seed=seed).batch(batch_size) # shuffles and groups into batches
+    dataset = dataset.map(lambda x, y: (augmentation(x, training=True), y)) # applies augmentations
     return dataset.prefetch(1)
 
 
@@ -110,11 +111,13 @@ def export_models(model, calibration_images, seed):
         model, input_tensors=tf.keras.Input(batch_shape=(1, IMAGE_SIZE, IMAGE_SIZE, 3)),
     )
     export_model.set_weights(model.get_weights())
+    # first converter produces a normal floating point .tflite model
     converter = tf.lite.TFLiteConverter.from_keras_model(export_model)
     float_bytes = converter.convert()
+    # the second converter is configured for full integer quantization
     converter = tf.lite.TFLiteConverter.from_keras_model(export_model)
     converter.optimizations = [tf.lite.Optimize.DEFAULT]
-    converter.representative_dataset = representative_dataset
+    converter.representative_dataset = representative_dataset #to estimate the ranges of the activations during quantization
     converter.target_spec.supported_ops = [tf.lite.OpsSet.TFLITE_BUILTINS_INT8]
     converter.inference_input_type = tf.int8
     converter.inference_output_type = tf.int8
@@ -127,12 +130,13 @@ def metrics(labels, predictions):
         "accuracy": float(np.mean(labels == predictions)),
         "confusion_matrix": matrix.tolist(),
         "per_class_recall": {
-            name: float(matrix[i, i] / matrix[i].sum())
+            name: float(matrix[i, i] / matrix[i].sum()) # TP / TP + FN using the confusion matrix
             for i, name in enumerate(CLASSES)
         },
     }
 
 
+# runs the quantized model
 def evaluate_tflite(model_bytes, images):
     interpreter = tf.lite.Interpreter(model_content=model_bytes, num_threads=4)
     interpreter.allocate_tensors()
@@ -140,13 +144,13 @@ def evaluate_tflite(model_bytes, images):
     output_info = interpreter.get_output_details()[0]
     if input_info["dtype"] != np.int8 or output_info["dtype"] != np.int8:
         raise ValueError("Expected INT8 input and output")
-    scale, zero_point = input_info["quantization"]
+    scale, zero_point = input_info["quantization"] # exposed by the model, used to convert normalized float pixels
     predictions = []
     for image in images:
         quantized = np.clip(np.rint(image / scale + zero_point), -128, 127)
         interpreter.set_tensor(input_info["index"], quantized.astype(np.int8)[None])
         interpreter.invoke()
-        predictions.append(int(interpreter.get_tensor(output_info["index"])[0].argmax()))
+        predictions.append(int(interpreter.get_tensor(output_info["index"])[0].argmax())) # Selects the index with the largest output value.
     # These tensor sizes are inspectable, but are NOT TFLM's arena requirement.
     tensors = interpreter.get_tensor_details()
     operations = sorted({op["op_name"] for op in interpreter._get_ops_details()
@@ -208,11 +212,14 @@ def main():
     if not args.export_only:
         save_json(reports / "config.json", config)
 
+    # Configures TensorFlow threading.
     tf.config.threading.set_intra_op_parallelism_threads(4)
     tf.config.threading.set_inter_op_parallelism_threads(2)
+    # sets random seed and deterministic ops 
     tf.keras.utils.set_random_seed(args.seed)
     tf.config.experimental.enable_op_determinism()
 
+    #loads and splits training images 
     paths, labels = collect_images(ROOT / "data/raw/rps")
     train_indices, val_indices = split_training(labels, args.seed)
     images = load_images(paths)
@@ -231,10 +238,12 @@ def main():
     )
     validation = tf.data.Dataset.from_tensor_slices((x_val, y_val)).batch(args.batch_size)
 
+    # builds or loads the model
     model = (tf.keras.models.load_model(float_dir / "rps_cnn.keras")
              if args.export_only else build_model(args.dropout, args.seed))
     model.summary()
     print(f"Training: {len(y_train)}; validation: {len(y_val)}", flush=True)
+    # trains unless --export-only was specified
     if not args.export_only:
         model.fit(
             training,
@@ -242,7 +251,7 @@ def main():
             epochs=args.epochs,
             callbacks=[
                 tf.keras.callbacks.EarlyStopping(
-                    monitor="val_accuracy", patience=7, restore_best_weights=True,
+                    monitor="val_accuracy", patience=7, restore_best_weights=True, # early stopping that restores weights from the best validation epoch
                 ),
                 tf.keras.callbacks.CSVLogger(str(reports / "history.csv")),
             ],
@@ -252,10 +261,10 @@ def main():
     float_dir.mkdir(parents=True, exist_ok=True)
     int8_dir.mkdir(parents=True, exist_ok=True)
     if not args.export_only:
-        model.save(float_dir / "rps_cnn.keras")
+        model.save(float_dir / "rps_cnn.keras") # saves the keras model
 
     # Calibrate on training images only. Augmentation stays outside the export.
-    float_bytes, int8_bytes = export_models(model, x_train, args.seed)
+    float_bytes, int8_bytes = export_models(model, x_train, args.seed) # exports float and int8 tflite models
     (float_dir / "rps_cnn.tflite").write_bytes(float_bytes)
     (int8_dir / "rps_cnn.tflite").write_bytes(int8_bytes)
 
