@@ -1,5 +1,10 @@
 # Rock Paper Scissors deployment candidate
 
+This card describes the original eight-epoch deployment candidate. Later
+[seven-fold epoch-selection experiments](experiments/seven-fold-epochs.md) are
+preserved separately and have not replaced this artifact. See the
+[experiment index](../README.md#experiments) for all comparisons.
+
 ## Intended use
 
 Recognize one rock, paper, or scissors gesture in a controlled camera view.
