@@ -1,6 +1,7 @@
-# This file was automatically generated for projects
-# without default 'CMakeLists.txt' file.
-
-FILE(GLOB_RECURSE app_sources ${CMAKE_SOURCE_DIR}/src/*.*)
-
-idf_component_register(SRCS ${app_sources})
+idf_component_register(
+    SRCS "main.cpp"
+    PRIV_REQUIRES esp_timer
+    EMBED_FILES
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../../models/int8/final/rps_cnn.tflite"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../test_data/test_paper.bin"
+)

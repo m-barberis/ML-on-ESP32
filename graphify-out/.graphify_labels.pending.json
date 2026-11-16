@@ -1,0 +1,15 @@
+{
+  "0": "cross_validate.py",
+  "1": "seven_fold_epochs.py",
+  "2": "main.cpp",
+  "3": "Rock Paper Scissors selected deployment model",
+  "4": "Baseline, augmentation, and dropout",
+  "5": "README.md",
+  "6": "seed_comparison.py",
+  "7": "ML-on-ESP32",
+  "8": "Three-fold nested sequence validation",
+  "9": "Training-seed comparison: seven versus ten epochs",
+  "10": "Seven-fold epoch selection",
+  "11": "dependencies",
+  "12": "AGENTS.md"
+}

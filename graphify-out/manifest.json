@@ -193,9 +193,93 @@
     "semantic_hash": "d43ab3f5782996c2371270552b3e7b20"
   },
   "src/training/train.py": {
-    "mtime": 1793441992.9575124,
-    "seen": 1794502590.573837,
-    "ast_hash": "e2c8a5a00903aaa886f8831c050b825c",
-    "semantic_hash": "e2c8a5a00903aaa886f8831c050b825c"
+    "mtime": 1794506033.2409286,
+    "seen": 1794853180.598294,
+    "ast_hash": "d1f2dde72ec04165f2360d5b737fdca7",
+    "semantic_hash": ""
+  },
+  ".vscode/settings.json": {
+    "mtime": 1794852095.9472084,
+    "seen": 1794853180.5982678,
+    "ast_hash": "1dc9f2006437fcf5cb9e43f62746f40e",
+    "semantic_hash": ""
+  },
+  "firmware/ESP32_ML/.vscode/extensions.json": {
+    "mtime": 1794852103.6827137,
+    "seen": 1794853180.59827,
+    "ast_hash": "271e65ec0f2fcc8a13ad8bda72704cff",
+    "semantic_hash": ""
+  },
+  "firmware/ESP32_ML/src/idf_component.yml": {
+    "mtime": 1794853088.259076,
+    "seen": 1794853180.598271,
+    "ast_hash": "7f4e75a850a6ce20c2e33d139c13b606",
+    "semantic_hash": ""
+  },
+  "firmware/ESP32_ML/src/main.cpp": {
+    "mtime": 1794853150.7370949,
+    "seen": 1794853180.598272,
+    "ast_hash": "b665ae9aac96e6edd601c01c1d917689",
+    "semantic_hash": ""
+  },
+  "AGENTS.md": {
+    "mtime": 1794502550.6332324,
+    "seen": 1794853180.598294,
+    "ast_hash": "f36539ecc9af68f33ebd72770ce4a19e",
+    "semantic_hash": ""
+  },
+  "README.md": {
+    "mtime": 1794501967.1719677,
+    "seen": 1794853180.598295,
+    "ast_hash": "48c198d070f74d8df5ba1533fe420d62",
+    "semantic_hash": ""
+  },
+  "docs/experiments/baseline-augmentation.md": {
+    "mtime": 1794500368.204562,
+    "seen": 1794853180.598295,
+    "ast_hash": "988913decde5bcf29778ce1e1f6d47e7",
+    "semantic_hash": ""
+  },
+  "docs/experiments/nested-sequence-validation.md": {
+    "mtime": 1794501967.23064,
+    "seen": 1794853180.5982962,
+    "ast_hash": "ade18556a895a6fcd9cef3f70d6222a7",
+    "semantic_hash": ""
+  },
+  "docs/experiments/seed-comparison.md": {
+    "mtime": 1794501967.2557826,
+    "seen": 1794853180.598297,
+    "ast_hash": "ba8d32b3510dc084f24a92a2ff759ec2",
+    "semantic_hash": ""
+  },
+  "docs/experiments/seven-fold-epochs.md": {
+    "mtime": 1794501967.282263,
+    "seen": 1794853180.598297,
+    "ast_hash": "05570af89f2efc979b49c54f317c0148",
+    "semantic_hash": ""
+  },
+  "docs/model-card.md": {
+    "mtime": 1794501967.174666,
+    "seen": 1794853180.598298,
+    "ast_hash": "e345da6e28f8c3f67560cf570108ff4e",
+    "semantic_hash": ""
+  },
+  "firmware/ESP32_ML/CMakeLists.txt": {
+    "mtime": 1794852082.3499143,
+    "seen": 1794853180.5982988,
+    "ast_hash": "44db78e42d857eefe7167aa7d1147180",
+    "semantic_hash": ""
+  },
+  "firmware/ESP32_ML/src/CMakeLists.txt": {
+    "mtime": 1794853088.257493,
+    "seen": 1794853180.5982988,
+    "ast_hash": "92c1f4a1fc451c01c8d5690bb5f72ee9",
+    "semantic_hash": ""
+  },
+  "requirements.txt": {
+    "mtime": 1793439735.805823,
+    "seen": 1794853180.5983,
+    "ast_hash": "6a5c60419c5909d94eea46c0760082a9",
+    "semantic_hash": ""
   }
 }

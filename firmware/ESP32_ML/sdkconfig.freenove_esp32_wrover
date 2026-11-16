@@ -670,24 +670,16 @@ CONFIG_ESPTOOLPY_FLASHFREQ_40M=y
 # CONFIG_ESPTOOLPY_FLASHFREQ_20M is not set
 # default:
 CONFIG_ESPTOOLPY_FLASHFREQ="40m"
-# default:
 # CONFIG_ESPTOOLPY_FLASHSIZE_1MB is not set
-# default:
-CONFIG_ESPTOOLPY_FLASHSIZE_2MB=y
-# default:
-# CONFIG_ESPTOOLPY_FLASHSIZE_4MB is not set
-# default:
+# CONFIG_ESPTOOLPY_FLASHSIZE_2MB is not set
+CONFIG_ESPTOOLPY_FLASHSIZE_4MB=y
 # CONFIG_ESPTOOLPY_FLASHSIZE_8MB is not set
-# default:
 # CONFIG_ESPTOOLPY_FLASHSIZE_16MB is not set
-# default:
 # CONFIG_ESPTOOLPY_FLASHSIZE_32MB is not set
-# default:
 # CONFIG_ESPTOOLPY_FLASHSIZE_64MB is not set
-# default:
 # CONFIG_ESPTOOLPY_FLASHSIZE_128MB is not set
 # default:
-CONFIG_ESPTOOLPY_FLASHSIZE="2MB"
+CONFIG_ESPTOOLPY_FLASHSIZE="4MB"
 # default:
 # CONFIG_ESPTOOLPY_HEADER_FLASHSIZE_UPDATE is not set
 # default:
@@ -728,6 +720,19 @@ CONFIG_PARTITION_TABLE_OFFSET=0x8000
 # default:
 CONFIG_PARTITION_TABLE_MD5=y
 # end of Partition Table
+
+#
+# ESP-NN
+#
+# default:
+# CONFIG_NN_ANSI_C is not set
+# default:
+CONFIG_NN_OPTIMIZED=y
+# default:
+CONFIG_NN_OPTIMIZATIONS=1
+# default:
+# CONFIG_NN_SKIP_NUDGE is not set
+# end of ESP-NN
 
 #
 # Compiler options
@@ -3473,6 +3478,13 @@ CONFIG_WL_SECTOR_SIZE_4096=y
 # default:
 CONFIG_WL_SECTOR_SIZE=4096
 # end of Wear Levelling
+
+#
+# ESP TFLite-Micro
+#
+# default:
+CONFIG_ESP_TFLITE_MICRO_USE_ESP_NN=y
+# end of ESP TFLite-Micro
 # end of Component config
 
 # default:
