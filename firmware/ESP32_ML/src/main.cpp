@@ -12,6 +12,7 @@
 #include "tensorflow/lite/micro/micro_interpreter.h"
 #include "tensorflow/lite/micro/micro_mutable_op_resolver.h"
 
+//pointers to the beginning and end of the model
 extern const uint8_t model_data[] asm("_binary_rps_cnn_tflite_start");
 extern const uint8_t model_end[] asm("_binary_rps_cnn_tflite_end");
 
@@ -21,8 +22,8 @@ constexpr uint32_t kHeapCaps = MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT;
 constexpr int kImageSize = 64;
 constexpr int kChannels = 3;
 constexpr int kClassCount = 3;
-constexpr size_t kImageBytes = kImageSize * kImageSize * kChannels;
-alignas(16) uint8_t tensor_arena[112 * 1024];
+constexpr size_t kImageBytes = kImageSize * kImageSize * kChannels; // = 12288
+alignas(16) uint8_t tensor_arena[112 * 1024]; //statically allocated 112KiB memory used by TFLite for tensors and intermediate buffers 
 
 bool read_image(uint8_t* pixels) {
     for (size_t received = 0; received < kImageBytes;) {
