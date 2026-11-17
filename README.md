@@ -70,8 +70,39 @@ Supporting experiments are documented separately:
 
 ## ESP32 integration
 
-The selected weights are ready for integration. Camera accuracy, tensor arena
-allocation, combined camera/inference memory, and latency still need hardware
-validation. See the [model card](docs/model-card.md) for preprocessing,
-quantization, class order, and required operations. The model has no background
-or unknown class.
+The Freenove ESP32-Wrover benchmark runs the selected INT8 model on all 372
+test images. The computer resizes and quantizes each image using the training
+pipeline and sends one tensor at a time over USB. The ESP32 runs TensorFlow Lite
+Micro and returns the three raw class scores and measurements.
+
+Close any open serial monitor. From the repository root, activate the Python
+environment, install the requirements, and get the board's port with
+`pio device list`. Use the port listed on your system in both commands:
+
+```sh
+uv pip install -r requirements.txt
+PORT=/dev/cu.usbserial-10
+pio run -d firmware/ESP32_ML -t upload --upload-port "$PORT" &&
+python -m scripts.benchmark_esp32 --port "$PORT"
+```
+
+At 115200 baud, the transfer alone takes about 6.6 minutes, plus time for
+inference. Each run saves `predictions.csv` and `summary.json` in
+a new directory under `runs/esp32/`. The CSV is updated as results arrive. The
+summary is written after all 372 images finish.
+
+- **Accuracy** includes the confusion matrix (rows are true classes, columns
+  are predictions), per-class recall, and agreement with desktop TensorFlow Lite.
+- **Inference latency** measures only the ESP32's `Invoke()` call. Serial
+  round-trip latency includes sending the image, inference, and receiving the
+  result. Both include the first image and report the mean and maximum.
+- **Memory** reports the reserved tensor arena and the mean and maximum of
+  TensorFlow Lite Micro's reported arena footprint. It also reports mean
+  internal heap occupancy immediately after inference and a peak estimate from
+  ESP-IDF's per-region low-water marks during inference. The heap measurement
+  covers the system's internal byte-addressable heap and excludes the static
+  arena and task stack usage within allocations.
+
+See the [model card](docs/model-card.md) for the input contract and class order.
+The model has no background or unknown class. Camera performance requires a
+separate hardware check.

@@ -217,9 +217,9 @@
     "semantic_hash": ""
   },
   "firmware/ESP32_ML/src/main.cpp": {
-    "mtime": 1794853150.7370949,
-    "seen": 1794853180.598272,
-    "ast_hash": "b665ae9aac96e6edd601c01c1d917689",
+    "mtime": 1794952087.8418384,
+    "seen": 1794952257.1584508,
+    "ast_hash": "12f020d8b0b14ba5470f11255ce11985",
     "semantic_hash": ""
   },
   "AGENTS.md": {
@@ -229,9 +229,9 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1794501967.1719677,
-    "seen": 1794853180.598295,
-    "ast_hash": "48c198d070f74d8df5ba1533fe420d62",
+    "mtime": 1794952231.9982076,
+    "seen": 1794952257.158572,
+    "ast_hash": "4a1de60cc7f5e32c2065c061b829108b",
     "semantic_hash": ""
   },
   "docs/experiments/baseline-augmentation.md": {
@@ -271,15 +271,21 @@
     "semantic_hash": ""
   },
   "firmware/ESP32_ML/src/CMakeLists.txt": {
-    "mtime": 1794853088.257493,
-    "seen": 1794853180.5982988,
-    "ast_hash": "92c1f4a1fc451c01c8d5690bb5f72ee9",
+    "mtime": 1794952087.8450391,
+    "seen": 1794952257.158584,
+    "ast_hash": "9c2655f5cf42db02d483c3cc160bd00d",
     "semantic_hash": ""
   },
   "requirements.txt": {
-    "mtime": 1793439735.805823,
-    "seen": 1794853180.5983,
-    "ast_hash": "6a5c60419c5909d94eea46c0760082a9",
+    "mtime": 1794952141.804648,
+    "seen": 1794952257.158586,
+    "ast_hash": "7e5aebe3ec8de54f3591832b508b81e8",
+    "semantic_hash": ""
+  },
+  "scripts/benchmark_esp32.py": {
+    "mtime": 1794952231.9438791,
+    "seen": 1794952257.158499,
+    "ast_hash": "e5e2c999797f4e861159b501033e9a44",
     "semantic_hash": ""
   }
 }
